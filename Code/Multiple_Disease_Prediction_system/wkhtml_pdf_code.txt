@@ -1,0 +1,117 @@
+import pdfkit
+
+        # Add a button to trigger the PDF conversion
+        if st.button("Download PDF"):
+            def urltopdf(url,pdffile):
+                '''
+                    input
+                    - url : target url
+                    - pdffile : target pdf file name
+                '''
+                path_wkthmltopdf = b'C:\Program Files\wkhtmltopdf\\bin\wkhtmltopdf.exe'
+                config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+                #pdfkit.from_url(url=urlpath, output_path=pdffilepath,configuration=config)
+                pdfkit.from_url(url,pdffile,configuration=config)
+
+
+            urltopdf('http://localhost:8501','download.pdf')
+            st.write("PDF downloaded successfully!")
+
+
+
+//2nd code
+
+        
+        url = "http://localhost:8501"
+        if st.button("Convert to PDF"):
+            try:
+                response = requests.get(url)
+                if response.status_code == 200:
+                    with st.spinner("Converting to PDF..."):
+                        pdf_data = pisa.CreatePDF(response.text)
+                    st.markdown(f'<embed src="data:application/pdf;base64,{pdf_data}" width="700" height="1000"></embed>', unsafe_allow_html=True)
+                else:
+                    st.error("Invalid URL. Please enter a valid URL.")
+            except:
+                st.error("Unable to convert to PDF. Please try again later.")
+
+
+
+//3rd code
+def url_to_pdf(url):
+            try:
+                # Get the HTML content of the URL
+                response = requests.get(url)
+                html = response.content.decode('utf-8')
+                
+                # Convert the HTML content to PDF
+                pdf_file = BytesIO()
+                pisa.CreatePDF(BytesIO(html.encode('utf-8')), pdf_file)
+                
+                return pdf_file
+            
+            except Exception as e:
+                st.error('Error: {}'.format(str(e)))
+                
+        # Text input for the URL
+        url = "http://localhost:8501"
+        
+        # Button to trigger the conversion
+        if st.button('Convert to PDF'):
+            pdf_file = url_to_pdf(url)
+            st.success('PDF generated successfully!')
+        
+            if pdf_file is not None:
+                st.download_button(
+                    label='Download PDF',
+                    data=pdf_file.getvalue(),
+                    file_name='document.pdf',
+                    mime='application/pdf'
+
+                )
+
+//4th code
+ url = st.text_input("Enter URL to convert to PDF")
+        
+        # PDF conversion function
+        def url_to_pdf(url):
+            # fetch the HTML content of the URL
+            html = urllib.request.urlopen(url).read().decode('utf-8')
+            
+            # create a file-like buffer to receive PDF data
+            buffer = io.BytesIO()
+            
+            # convert HTML to PDF
+            pisa_status = pisa.CreatePDF(html, dest=buffer)
+            
+            # return the PDF data
+            pdf = buffer.getvalue()
+            
+            return pdf
+        
+        # convert URL to PDF on button click
+        if st.button("Convert URL to PDF"):
+            pdf = url_to_pdf(url)
+            st.download_button("Download PDF", pdf, file_name='converted.pdf', mime='application/pdf')
+
+
+
+// image code 1
+import base64
+        def get_base64(bin_file):
+            with open(bin_file, 'rb') as f:
+                data = f.read()
+                return base64.b64encode(data).decode()
+        def set_background(jpg_file):
+            bin_str = get_base64(jpg_file)
+            page_bg_img = '''
+            <style>
+            body {
+            background-image: url("data:image/jpg;base64,%s");
+            background-size: cover;
+            }
+            </style>
+            ''' % bin_str
+            st.markdown(page_bg_img, unsafe_allow_html=True)
+        
+        set_background('C:/Users/Shruti/Downloads/Multiple_Disease_Prediction_system/image.jpg')

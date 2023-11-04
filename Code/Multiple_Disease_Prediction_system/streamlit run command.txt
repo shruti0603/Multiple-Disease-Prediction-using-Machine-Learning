@@ -1,0 +1,1 @@
+streamlit run "C:\Users\Shruti\Downloads\Multiple_Disease_Prediction_system\login_page.py"
